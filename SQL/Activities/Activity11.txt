@@ -1,0 +1,29 @@
+ACTIVITY 11
+
+1. Write a query that produces the name and number of each salesman and each customer with more than one current order. Put the results in alphabetical order.
+
+SQL Query:
+SELECT 
+    s.name AS salesman_name,
+    c.cust_name,
+    COUNT(o.ord_no) AS total_orders
+FROM orders o
+JOIN customer c ON o.customer_id = c.customer_id
+JOIN salesman s ON c.salesman_id = s.salesman_id
+GROUP BY s.name, c.cust_name
+HAVING COUNT(o.ord_no) > 1
+ORDER BY s.name ASC, c.cust_name ASC;
+
+
+2. Write a query to make a report of which salesman produce the largest and smallest orders on each date. Also add a column that shows "highest on" and "lowest on" values.
+
+SQL Query:
+SELECT 
+    o.ord_date,
+    s.name AS salesman_name,
+    MAX(o.purch_amt) AS highest_on,
+    MIN(o.purch_amt) AS lowest_on
+FROM orders o
+JOIN salesman s ON o.salesman_id = s.salesman_id
+GROUP BY o.ord_date, s.name
+ORDER BY o.ord_date, s.name;
